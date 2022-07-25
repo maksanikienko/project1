@@ -1,19 +1,19 @@
 <?php
 $row = 1;
-$num = 1;
-if (($handle = fopen("users.csv", "r")) !== FALSE) 
-{
-    while (($data = fgetcsv($handle, 0, ",")) !== FALSE) 
-    
-     
-    {
-        echo "<p> $num  $row: </p>\n";
-        
-         {
-            print json_encode($data).PHP_EOL. "\n";
+//[ "task_1.php", "user.csv", "Andrew" ] <= php task_1.php user.csv Andrew
+  [ $script,      $filename,  $username] = $argv;
+
+print "Searching $username in $filename".PHP_EOL;
+
+if (($handle = fopen($filename, "r")) !== FALSE) {
+    while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+        if (str_contains($data[0], $username)) {
+            echo "$row : " . json_encode($data) . PHP_EOL . "\n";
         }
+        $row++;
     }
     fclose($handle);
 }
 
-?>
+// A => A'
+// [..] | [..]'
