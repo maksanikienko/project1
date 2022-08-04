@@ -1,24 +1,21 @@
 <?php
-$row = 1;
-$num = 1;
-if (($handle = fopen("users.csv", "r")) !== FALSE) 
-{
-    while (($data = fgetcsv($handle, 0, ",")) !== FALSE) 
-    while (($last_name = current($data)) != false){
-        if ($last_name == 'Cletus') {
-            echo key($data), "\n";
-        }
-        next($data);
+$num= 1;
+$i = 0;
+$handle = fopen("users.csv", "r");
+$data = fgetcsv($handle, 0, ",");
+
+foreach ($data as $key => $value) {
+    
+  if ($i % 1 === 0) {
+        echo "{$key} => {$value} " . ' ';
     }
-     
-    {
-        echo "<p> $num  $row: </p>\n";
-        
-         {
-            print json_encode($data).PHP_EOL. "\n";
-        }
-    }
-    fclose($handle);
+   $i++;
 }
 
+//$arr = explode(", ", $key);
+//$arr2 = explode(", ", $value);
+//$row1 = array_combine($arr, $arr2);
+//print_r($data); 
+
+fclose($handle)
 ?>

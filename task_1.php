@@ -1,7 +1,11 @@
 <?php
-//[ "task_1.php", "user.csv", "Andrew" ] <= php task_1.php user.csv Andrew
-  [ $script,      $filename,  $username] = $argv;
+//[ "task_1.php", "users.csv", "Andrew" ] <= php task_1.php user.csv Andrew
+print_r($argv);
+$script = $argv[0];
+$filename = $argv[1];
+$username = $argv[2];
 
+ 
 print "Searching $username in $filename".PHP_EOL;
 
 // (filename, name) => user[]
@@ -20,10 +24,4 @@ function filter_by_name(string $filename, string $username): array
 
     return $result;
 }
-
-$results = filter_by_name($filename, $username);
-
-print_r(array_map('json_encode', $results));
-
-// A => A'
-// [..] | [..]'
+print_r($result);
