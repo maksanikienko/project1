@@ -18,7 +18,7 @@ $content = json_decode($file);
 
 
 //4. Добавляю в полученную переменную свою запись
-$content[] = ['id'=> uniqid(""), 'arguments'=>implode(" ", $argv),'timestump'=> date("20-12-2000")];
+$content[]= ['id'=> uniqid(""), 'arguments'=>implode(" ", $argv),'timestump'=> date("20-12-2000")];
 
 //5. Кодирую эту переменную в json формат. 
 $content = json_encode($content, JSON_PRETTY_PRINT);
@@ -26,6 +26,5 @@ $content = json_encode($content, JSON_PRETTY_PRINT);
 
 //6. Кладу результат кодировани в json файл.
 file_put_contents("./php-calls.json",$content);
-
-//print_r($argv);
-//Каждый json файл был записан 
+//print_r($content);
+?>

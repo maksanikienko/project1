@@ -1,3 +1,5 @@
 <?php
-$content[] = '1,2,3';
-print_r($content);
+function say_hello(string $friend){
+    echo "Hello " . $friend. PHP_EOL;
+ }
+ say_hello("Max");
