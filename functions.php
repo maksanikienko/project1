@@ -14,11 +14,14 @@ function add_item(string $content)
 
     $newItem = ['id' => uniqid(""), 'content' => $content, 'timestamp' => time()];
     $data[] = $newItem;
-    $data = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents(STORAGE_PATH, $data);
+
+    // если вспомнить сценарии, то у нас во всех сценариях повторялись операции получить из файла и декодировать, и записать в файл закодировав
+    // повторяющиеся операции являются функциями, которые ты хочешь переиспользовать, а значит их надо отдельно объявить
+    save_data_to_storage(STORAGE_PATH, $data);
 
     print "New items with ID '{$newItem['id']}' was added." . PHP_EOL;
 };
+
 
 // для редактирования нам нужно знать какую запись мы ищем ($id) и что мы хотим в ней поменять ($content)
 function update_item(string $id, string $newContent)
@@ -33,9 +36,7 @@ function update_item(string $id, string $newContent)
         }
     }
 
-    $data = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents(STORAGE_PATH, $data);
-
+    save_data_to_storage(STORAGE_PATH, $data);
 };
 
 // удаление происходит по идентификатору ($id) записи
@@ -50,8 +51,7 @@ function delete_item(string $id)
         }
     }
 
-    $data = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents(STORAGE_PATH, $data);
+    save_data_to_storage(STORAGE_PATH, $data);
 };
 
 function read_items()
@@ -93,7 +93,11 @@ function get_data_from_json_storage(string $path)
         file_put_contents($path, json_encode([]));
     }
 
-    $fileContent = file_get_contents($path);
-
-    return json_decode($fileContent, true);
+    return json_decode(file_get_contents($path), true);
 }
+
+function save_data_to_storage(string $path, array $data): void {
+    $data = json_encode($data, JSON_PRETTY_PRINT);
+    file_put_contents(STORAGE_PATH, $data);
+}
+
