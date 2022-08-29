@@ -1,8 +1,16 @@
 <?php
+ // скрипт который занимается автоподгрузкой классов
+ require "./vendor/autoload.php";
+
+
 // это константа, что-то типа переменной, только которую нельзя никак изменить
 // они доступны из любой точки приложения после того как ты их обьявил
 // обычно они хранят пути к папкам, какие-то важные названия, значения и тд
 //const STORAGE_PATH = __DIR__ . "/data.json";
+
+use Manikienko\Todo\Filesystem;
+use Manikienko\Todo\Storage;
+
 define('STORAGE_PATH', $argv[1] ?? __DIR__ . '/storage.json');
 
 // мы должны вытащить путь к хранилищу в константу чтобы потом не бегать по всему коду
@@ -110,16 +118,13 @@ function get_help()
 
 function get_data_from_json_storage(string $path)
 {
-    if (!file_exists($path)) {
-        // $arr и $string нам на самом едел тут не нужны, мы их можем убрать
-        file_put_contents($path, json_encode([]));
-    }
+    $storage = new Storage(new Filesystem(), STORAGE_PATH);
 
-    return json_decode(file_get_contents($path), true);
+    return $storage->getItems($path);
 }
 
 function save_data_to_storage(string $path, array $data): void {
-    $data = json_encode($data, JSON_PRETTY_PRINT);
-    file_put_contents(STORAGE_PATH, $data);
-}
+    $storage = new Storage(new Filesystem(), STORAGE_PATH);
 
+    $storage->saveItems($data);
+}
