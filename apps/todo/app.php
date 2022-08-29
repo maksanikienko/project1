@@ -1,26 +1,40 @@
 <?php
 
-require __DIR__ . '/functions.php';
+use Manikienko\Todo\Application;
+use Manikienko\Todo\Filesystem;
+use Manikienko\Todo\Storage;
 
-// array_shift вытаскивает первый элемент из массив
-$scriptPath = array_shift($argv); // task_5.php 
-$command = array_shift($argv); // add, update, read или delete
+// ах да, забыл сказать - functions.php нам больше не нужен.
+// Как ты мог заметить, почти все взаимодействия между файлами были автоматизированны,
+// и ничего никуда не надо пока что подгружать
 
-$otherArgs = $argv; // всё что не вытащили это оставшиеся аргументы
+// скрипт который занимается автоподгрузкой классов
+require "./vendor/autoload.php";
+
+define('STORAGE_PATH', __DIR__ . '/storage.json');
+
+$app = new Application(new Storage(new Filesystem(), STORAGE_PATH));
+
 while ($command = readline("todo>")) {
     match ($command) {
-        "add" => add_item(readline("content>")),
-        "update" => update_item(readline("id>"),readline("content>")),
-        "read" => read_items(),
-        "delete" => delete_item(readline("id>")),
-        "status" => set_status(readline("id>"), readline("status>")),
-        "help" => print get_help(),
+        "add" => $app->addItem(readline("content>")),
+        "update" => $app->updateItem(readline("id>"),readline("content>")),
+        "read" => $app->readItems(),
+        "delete" => $app->deleteItem(readline("id>")),
+        "set-status" => $app->setItemStatus(readline("id>"), readline("status>")),
+        "help" => print $app->getHelp(),
+        "exit" => die("See you later".PHP_EOL),
 
         default => print "Command '$command' is not available. " .
             "Use 'php " . basename(__FILE__) . " help' command for more details" . PHP_EOL,
     };
     print PHP_EOL;
-    read_items();
+    $app->readItems();
 }
-// добавляет поле статуса - new/in progress/done
-//ошибка текстом
+
+
+// Что будем делать потом
+// [ ] Ответим на твои вопросы
+// [ ] Добавим Item
+// [ ] Уменьшим количество операций с файлами (будут только при запуске приложния и его выключении)
+// [ ] Избавимся от прямого использования readline, потому что он своего рода взаимодействия с файловой системой, а значит помещает тестированию
