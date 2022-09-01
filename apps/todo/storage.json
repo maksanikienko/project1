@@ -8,26 +8,31 @@
     {
         "id": "630cd55302401",
         "content": "We have to add a new DTO named Item",
-        "timestamp": 1661785427
+        "timestamp": 1661785427,
+        "status": "in-progress"
     },
     {
         "id": "630cd564d364c",
         "content": "We have to cover your application with tests.",
-        "timestamp": 1661785444
+        "timestamp": 1661785444,
+        "status": "new"
     },
     {
         "id": "630cd5765d774",
         "content": "We have to implement something similar with symfony\/console",
-        "timestamp": 1661785462
+        "timestamp": 1661785462,
+        "status": "new"
     },
     {
         "id": "630cd596d1c99",
         "content": "We have to implement a password manager",
-        "timestamp": 1661785494
+        "timestamp": 1661785494,
+        "status": "new"
     },
     {
         "id": "630cd5b184784",
         "content": "We have to implement a CRM system in Symfony.",
-        "timestamp": 1661785521
+        "timestamp": 1661785521,
+        "status": "new"
     }
 ]

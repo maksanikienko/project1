@@ -2,6 +2,8 @@
 
 namespace Manikienko\Todo;
 
+use Manikienko\Todo\DTO\Item;
+
 class Storage {
 
     protected Filesystem $fs;
@@ -13,6 +15,9 @@ class Storage {
         $this->storagePath = $storagePath;
     }
 
+    /**
+     * @return Item[] 
+     **/
     public function getItems()
     {
         // file_exist, file_get_contents, file_put_contents
@@ -21,10 +26,27 @@ class Storage {
             $this->fs->put($this->storagePath, json_encode([]));
         }
 
-        return json_decode($this->fs->get($this->storagePath), true);
+        // array of array
+        $items = json_decode($this->fs->get($this->storagePath), true);
+
+        // array[] -> Item[]
+        $items = array_map(function(array $item) {
+            return new Item(
+                $item['id'],
+                $item['content'],
+                $item['status'] ?? 'new',
+                $item['timestamp'],
+            );
+        }, $items);
+
+        return $items;
     }
 
-    public function saveItems(array $data): void {
+    public function saveItems(array $items): void {
+        $data = array_map(function(Item $item): array{
+            return $item->toArray();
+        },$items);
+
         $data = json_encode($data, JSON_PRETTY_PRINT);
         $this->fs->put($this->storagePath, $data);
     }

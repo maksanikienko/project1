@@ -15,23 +15,7 @@ define('STORAGE_PATH', __DIR__ . '/storage.json');
 
 $app = new Application(new Storage(new Filesystem(), STORAGE_PATH));
 
-while ($command = readline("todo>")) {
-    match ($command) {
-        "add" => $app->addItem(readline("content>")),
-        "update" => $app->updateItem(readline("id>"),readline("content>")),
-        "read" => $app->readItems(),
-        "delete" => $app->deleteItem(readline("id>")),
-        "set-status" => $app->setItemStatus(readline("id>"), readline("status>")),
-        "help" => print $app->getHelp(),
-        "exit" => die("See you later".PHP_EOL),
-
-        default => print "Command '$command' is not available. " .
-            "Use 'php " . basename(__FILE__) . " help' command for more details" . PHP_EOL,
-    };
-    print PHP_EOL;
-    $app->readItems();
-}
-
+$app->run();
 
 // Что будем делать потом
 // [ ] Ответим на твои вопросы
