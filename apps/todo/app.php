@@ -4,16 +4,15 @@ use Manikienko\Todo\Application;
 use Manikienko\Todo\Filesystem;
 use Manikienko\Todo\Storage;
 
-// ах да, забыл сказать - functions.php нам больше не нужен.
-// Как ты мог заметить, почти все взаимодействия между файлами были автоматизированны,
-// и ничего никуда не надо пока что подгружать
-
 // скрипт который занимается автоподгрузкой классов
 require "./vendor/autoload.php";
 
-define('STORAGE_PATH', __DIR__ . '/storage.json');
-
-$app = new Application(new Storage(new Filesystem(), STORAGE_PATH));
+$app = new Application(
+    new Storage(
+        new Filesystem(),
+        __DIR__ . '/storage/items.json'
+    )
+);
 
 $app->run();
 
