@@ -16,14 +16,12 @@ class Application
     {
         $items = $this->storage->getItems();
 
-        $newItem = ['id' => uniqid(""), 'content' => $content, 'timestamp' => time()];
+        $newItem = new Item(uniqid(""), $content, 'new', time());
         $items[] = $newItem;
 
-        // если вспомнить сценарии, то у нас во всех сценариях повторялись операции получить из файла и декодировать, и записать в файл закодировав
-        // повторяющиеся операции являются функциями, которые ты хочешь переиспользовать, а значит их надо отдельно объявить
         $this->storage->saveItems($items);
 
-        print "New items with ID '{$newItem['id']}' was added." . PHP_EOL;
+        print "New items with ID '{$newItem->getId()}' was added." . PHP_EOL;
     }
 
 
@@ -31,11 +29,9 @@ class Application
     function updateItem(string $id, string $newContent)
     {
         $items = $this->storage->getItems();
-
-        foreach ($items as $key => $item) {
-
-            if ($item['id'] === $id) {
-                $items[$key]['content'] = $newContent;
+        foreach ($items as $item) {
+            if ($item->getId() === $id) {
+                $item->setContent($newContent);
                 print "Item with ID '$id' was updated." . PHP_EOL;
             }
         }
@@ -63,10 +59,12 @@ class Application
     // удаление происходит по идентификатору ($id) записи
     function deleteItem(string $id)
     {
+        /** @var Item[] $items */
         $items = $this->storage->getItems();
 
         foreach ($items as $key => $item) {
-            if ($item['id'] === $id) {
+            /** @var Item $item */
+            if ($item->getId() === $id) {
                 unset($items[$key]);
                 print "Item with ID '$id' was deleted." . PHP_EOL;
             }
@@ -117,6 +115,15 @@ class Application
                 print "Error: {$e->getMessage()}".PHP_EOL;
             }
         }
+        // Transport > Truck
+        // Transport > Car
+        // Transport > Bike
+        // Transport > Bicycle
+        // class Car extends Transport
+        // class DriftCar extends Car
+        // DriftCar -> Car -> Transport
+        // InvalidArgumentException -> LogicException -> Exception
+        // class child extends parent
     }
 
     public function executeCommand(string $command)

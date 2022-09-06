@@ -42,6 +42,13 @@ class Item
         return $this->content;
     }
 
+    public function setContent(string $content): self /* this */
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
     public function getStatus(): string
     {
         return $this->status;
