@@ -1,0 +1,15 @@
+{
+    "name": "aharabara/passman",
+    "autoload": {
+        "psr-4": {
+            "Aharabara\\Passman\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexandr Harabara",
+            "email": "dev.xandr@gmail.com"
+        }
+    ],
+    "require": {}
+}
